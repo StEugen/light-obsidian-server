@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Obsidian Server</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css"
+        />
+        <style>
+            body {
+                padding: 1rem;
+                font-family: sans-serif;
+            }
+            .markdown-body {
+                max-width: 800px;
+                margin: auto;
+            }
+            nav {
+                margin-bottom: 1rem;
+            }
+            textarea {
+                width: 100%;
+                height: 70vh;
+                font-family: monospace;
+            }
+            input[type="submit"] {
+                margin-top: 0.5rem;
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a> |
+            <a
+                href="{{ url_for('view_note', filename=filename if filename else '') }}"
+                >View</a
+            >
+            |
+            <a
+                href="{{ url_for('edit_note', filename=filename if filename else '') }}"
+                >Edit</a
+            >
+        </nav>
+        <div class="markdown-body">{% block content %}{% endblock %}</div>
+    </body>
+</html>
