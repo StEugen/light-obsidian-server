@@ -6,7 +6,14 @@ app = Flask(__name__)
 NOTES_DIR = os.path.join(os.path.dirname(__file__))
 
 def list_notes():
-    return sorted([f for f in os.listdir(NOTES_DIR) if f.endswith('.md')])
+    notes = []
+    for root, _, files in os.walk(NOTES_DIR):
+        for fname in files:
+            if fname.endswith('.md'):
+                full_path = os.path.join(root, fname)
+                rel_path = os.path.relpath(full_path, NOTES_DIR)
+                notes.append(rel_path.replace(os.path.sep, '/'))
+    return sorted(notes)
 
 @app.route('/')
 def index():
