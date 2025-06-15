@@ -2,47 +2,100 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Obsidian Server</title>
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css"
         />
         <style>
-            body {
-                padding: 1rem;
-                font-family: sans-serif;
+            :root {
+                --primary: #2c3e50;
+                --secondary: #ecf0f1;
+                --accent: #3498db;
+                --font-sans: "Helvetica Neue", Arial, sans-serif;
             }
-            .markdown-body {
-                max-width: 800px;
-                margin: auto;
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                font-family: var(--font-sans);
+                background: var(--secondary);
+                color: var(--primary);
+                line-height: 1.6;
             }
             nav {
-                margin-bottom: 1rem;
+                background: var(--primary);
+                color: white;
+                padding: 0.5rem 1rem;
+                display: flex;
+                gap: 1rem;
+            }
+            nav a {
+                color: var(--secondary);
+                text-decoration: none;
+                font-weight: bold;
+            }
+            nav a:hover {
+                color: var(--accent);
+            }
+            .container {
+                max-width: 800px;
+                margin: 2rem auto;
+                background: white;
+                padding: 2rem;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+            h1,
+            h2,
+            h3 {
+                color: var(--primary);
             }
             textarea {
                 width: 100%;
-                height: 70vh;
+                height: 65vh;
+                padding: 1rem;
                 font-family: monospace;
+                border: 1px solid #ccc;
+                border-radius: 4px;
             }
             input[type="submit"] {
-                margin-top: 0.5rem;
+                background: var(--accent);
+                border: none;
+                padding: 0.75rem 1.5rem;
+                color: white;
+                font-size: 1rem;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            input[type="submit"]:hover {
+                background: #2980b9;
+            }
+            ul.notes-list li {
+                padding: 0.5rem 0;
+                border-bottom: 1px solid #eee;
+            }
+            ul.notes-list li a {
+                color: var(--primary);
+                text-decoration: none;
+            }
+            ul.notes-list li a:hover {
+                color: var(--accent);
             }
         </style>
     </head>
     <body>
         <nav>
-            <a href="{{ url_for('index') }}">Home</a> |
-            <a
-                href="{{ url_for('view_note', filename=filename if filename else '') }}"
-                >View</a
-            >
-            |
-            <a
-                href="{{ url_for('edit_note', filename=filename if filename else '') }}"
-                >Edit</a
-            >
+            <a href="{{ url_for('index') }}">Home</a>
+            {% if filename %}
+            <a href="{{ url_for('view_note', filename=filename) }}">View</a>
+            <a href="{{ url_for('edit_note', filename=filename) }}">Edit</a>
+            {% endif %}
         </nav>
-        <div class="markdown-body">{% block content %}{% endblock %}</div>
+        <div class="container markdown-body">
+            {% block content %}{% endblock %}
+        </div>
     </body>
 </html>
